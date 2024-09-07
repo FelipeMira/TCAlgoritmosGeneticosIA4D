@@ -45,7 +45,7 @@ def main():
 
     limite = 3.0
     taxa_mutacao = 0.05
-    quantidade_geracoes = 10000
+    quantidade_geracoes = 1000
 
     algoritmo_genetico = AlgoritmoGenetico(len(lista_produto))
     resultado = algoritmo_genetico.resolver(taxa_mutacao, quantidade_geracoes, espacos, valores, limite,
