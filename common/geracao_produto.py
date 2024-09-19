@@ -1,9 +1,9 @@
-from Produto import Produto
+from algo_genetico.produto import Produto
 
 
 class GeracaoDeProdutos:
     @staticmethod
-    def gerar_lista_produtos():
+    def gerar_lista_produtos(lim=None):
         lista_produto = [
             Produto("Smartphone Samsung", 0.00001, 2500.00),
             Produto("Tablet Apple", 0.00002, 3200.00),
@@ -33,5 +33,9 @@ class GeracaoDeProdutos:
             Produto("Ar Condicionado LG", 0.500, 2000.00),
             Produto("Ventilador Arno", 0.050, 150.00),
             Produto("Purificador de Água", 0.100, 500.00)
-                         ]
+        ]
+
+        if lim:
+            lista_produto = lista_produto[:lim]
+            
         return lista_produto

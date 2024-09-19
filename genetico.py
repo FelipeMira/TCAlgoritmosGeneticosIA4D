@@ -1,9 +1,11 @@
-from AlgoritmoGenetico import AlgoritmoGenetico
-from GeracaoDeProdutos import GeracaoDeProdutos
+from algo_genetico.algoritmo_genetico import AlgoritmoGenetico
+from common.geracao_produto import GeracaoDeProdutos
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
 
+matplotlib.use("TkAgg")
 
 def plot_graph(melhores_cromossomos):
     geracoes = list(range(len(melhores_cromossomos)))
@@ -39,7 +41,7 @@ def plot_graph(melhores_cromossomos):
 
 
 def main():
-    lista_produto = GeracaoDeProdutos.gerar_lista_produtos()
+    lista_produto = GeracaoDeProdutos.gerar_lista_produtos(lim=23)
     espacos = [produto.espaco for produto in lista_produto]
     valores = [produto.valor for produto in lista_produto]
 
