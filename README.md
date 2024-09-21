@@ -6,10 +6,11 @@ Este projeto implementa um algoritmo genético para resolver problemas de otimiz
 
 ## Estrutura do Projeto
 
-- `AlgoritmoGenetico.py`: Contém a implementação do algoritmo genético.
-- `Individuo.py`: Define a classe `Individuo`, que representa uma solução candidata.
-- `GeracaoDeProdutos.py`: Gera a lista de produtos a serem utilizados no algoritmo.
-- `Runner.py`: Script principal que executa o algoritmo genético e plota os resultados.
+- `algo_genetico/algoritmo_genetico.py`: Contém a implementação do algoritmo genético.
+- `algo_genetico/individuo.py`: Define a classe `Individuo`, que representa uma solução candidata.
+- `common/geracao_produto.py`: Gera a lista de produtos a serem utilizados no algoritmo.
+- `genetico.py`: Script principal que executa o algoritmo genético e plota os resultados.
+- `brute_force.py`: Script executa o brute force para comparação com o genético.
 
 ## Funcionamento do Algoritmo
 
@@ -133,7 +134,7 @@ Os cromossomos dos filhos podem sofrer mutações aleatórias, onde alguns genes
 Os filhos gerados substituem a população atual, e o processo é repetido por um número definido de gerações.
 
 *Funcionamento*
-- Isso é feito na linha 57 na classe `AlgoritmoGenetico.py`, no método `resolver`, onde a nova população é atribuída à população atual.
+- Isso é feito na linha 57 na classe `algoritmo_genetico.py`, no método `resolver`, onde a nova população é atribuída à população atual.
 
 ### 7. Visualização
 
@@ -144,13 +145,36 @@ Ao final do processo, os resultados são plotados usando `matplotlib` e exibidos
 1. Certifique-se de ter o Python instalado.
 2. Instale as dependências necessárias:
     ```sh
-    pip install matplotlib tkinter
+    pip install matplotlib
     ```
-3. Execute o script `Runner.py`:
+
+    ou
+
     ```sh
-    python Runner.py
+    pip install -r requirements.txt
     ```
+3. Execute o script `genetico.py`:
+    ```sh
+    python genetico.py
+    ```
+
+Caso queira executar o brute force, rode:
+```sh
+python brute_force.py
+```
 
 ## Conclusão
 
 Este projeto demonstra a aplicação de um algoritmo genético para resolver problemas de otimização. Através de seleção, crossover e mutação, o algoritmo busca encontrar a melhor combinação de produtos que maximize o valor total sem exceder o limite de espaço.
+
+## Troubleshooting 
+
+
+### Problema com tkinter
+
+```
+import _tkinter # If this fails your Python may not be configured for Tk
+```
+
+Em alguns casos o Python instalado não possui o Tkinter. Você pode acompanhar esse postb para possíveis resoluções.
+https://stackoverflow.com/questions/5459444/tkinter-python-may-not-be-configured-for-tk

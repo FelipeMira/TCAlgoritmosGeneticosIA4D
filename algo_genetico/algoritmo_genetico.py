@@ -1,7 +1,7 @@
 import random
 
-from Individuo import Individuo
-from NoSuchElementException import NoSuchElementException
+from algo_genetico.individuo import Individuo
+from algo_genetico.exceptions import NoSuchElementException
 
 
 class AlgoritmoGenetico:
