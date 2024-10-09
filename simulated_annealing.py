@@ -7,12 +7,9 @@ Original file is located at
     https://colab.research.google.com/drive/172rHB14fWnclxUScKeu7Xm10epMb53ZW
 """
 
-import sys
-sys.path.append(r"C:\Users\Seed Digital\Downloads\TCAlgoritmosGeneticosIA4D-main\TCAlgoritmosGeneticosIA4D-main")
-
-
 import random
 import matplotlib.pyplot as plt
+import time
 from common.geracao_produto import GeracaoDeProdutos
 
 # Cria a Classe que implementa o algoritmo de Simulated Annealing
@@ -27,13 +24,11 @@ class SimulatedAnnealing:
 
     # Função que gera uma solução inicial aleatória
     def gerar_solucao_inicial(self):
-
         solucao = [random.choice(["0", "1"]) for _ in range(self.num_produtos)]
         return solucao
 
     # Função que avalia a solução, calculando o valor total e espaço ocupado
     def avaliar_solucao(self, solucao):
-
         valor_total = 0
         espaco_total = 0
         for i in range(len(solucao)):
@@ -46,7 +41,6 @@ class SimulatedAnnealing:
 
     # Função usada para gerar um vizinho (solução adjacente) ao alterar um produto aleatório
     def vizinho(self, solucao_atual):
-
         vizinho = solucao_atual[:]  # Copia a solução atual
         index = random.randint(0, self.num_produtos - 1)  # Seleciona um índice aleatório
         # Alterna o estado do produto selecionado (de "0" para "1" ou vice-versa)
@@ -55,7 +49,6 @@ class SimulatedAnnealing:
 
     # Executa o algoritmo do Simulated Annealing
     def simulated_annealing(self, max_iter):
-
         solucao_atual = self.gerar_solucao_inicial()  # Gera a solução inicial
         melhor_solucao = solucao_atual[:]  # Armazena a melhor solução encontrada
         melhor_valor = self.avaliar_solucao(solucao_atual)  # Avalia a solução inicial
@@ -80,10 +73,10 @@ class SimulatedAnnealing:
         return historico_valores  # Retorna o histórico dos valores
 
     # Plota a evolução do valor durante as iterações
-    def plot_resultados(self, historico_valores):
+    def plot_resultados(self, historico_valores, execution_time):
         """ Plota a evolução do valor durante o Simulated Annealing """
         plt.plot(historico_valores)  # Plota a lista de valores ao longo das iterações
-        plt.title('Evolução do valor durante o Simulated Annealing')  # Título do gráfico
+        plt.title(f'Evolução do valor durante o Simulated Annealing\nTempo de Execução: {execution_time:.2f} segundos')  # Título do gráfico
         plt.xlabel('Iterações')  # Rótulo do eixo X
         plt.ylabel('Valor Total')  # Rótulo do eixo Y
         plt.show()  # Exibe o gráfico
@@ -97,28 +90,28 @@ class SimulatedAnnealing:
                 produtos_escolhidos.append(self.produtos[i])  # Adiciona o produto à lista
         return produtos_escolhidos
 
-# Geração de produtos
-geracao = GeracaoDeProdutos()  # Instancia o gerador de produtos
-produtos = geracao.gerar_lista_produtos()  # Gera uma lista de produtos
-limite_espacos = 3  # Define o limite de espaço disponível
+def main():
+    geracao = GeracaoDeProdutos()
+    produtos = geracao.gerar_lista_produtos()
+    limite_espacos = 3
+    max_iter = 3000
 
-# Configuração do Simulated Annealing
-sa = SimulatedAnnealing(produtos, limite_espacos)
-max_iter = 1000  # Define o número de iterações do algoritmo
+    sa = SimulatedAnnealing(produtos, limite_espacos)
 
-# Executa o algoritmo de Simulated Annealing
-historico_valores = sa.simulated_annealing(max_iter)
+    start_time = time.time()
+    historico_valores = sa.simulated_annealing(max_iter)
+    end_time = time.time()
+    execution_time = end_time - start_time
 
-# Exibe a melhor solução encontrada e seu valor total
-print(f'Melhor solução encontrada: {sa.melhor_solucao}')
-print(f'Valor total: {sa.melhor_valor:.2f}')
+    print(f'Melhor solução encontrada: {sa.melhor_solucao}')
+    print(f'Valor total: {sa.melhor_valor:.2f}')
 
-# Exibe os produtos que foram selecionados na melhor solução
-produtos_escolhidos = sa.produtos_selecionados()
-print("Produtos selecionados:")
-for produto in produtos_escolhidos:
-    print(f'{produto.nome} - Espaço: {produto.espaco:.5f}, Valor: {produto.valor:.2f}')
+    produtos_escolhidos = sa.produtos_selecionados()
+    print("Produtos selecionados:")
+    for produto in produtos_escolhidos:
+        print(f'{produto.nome} - Espaço: {produto.espaco:.5f}, Valor: {produto.valor:.2f}')
 
-# Plota o gráfico da evolução do valor ao longo das iterações
-sa.plot_resultados(historico_valores)
+    sa.plot_resultados(historico_valores, execution_time)
 
+if __name__ == "__main__":
+    main()
