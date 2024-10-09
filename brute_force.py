@@ -1,14 +1,10 @@
 from common.geracao_produto import GeracaoDeProdutos
 from itertools import combinations
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import tkinter as tk
-import matplotlib
 import math
+import time
 
-matplotlib.use("TkAgg")
-
-def plot_graph(melhores_cromossomos):
+def plot_graph(melhores_cromossomos, execution_time):
     geracoes = list(range(len(melhores_cromossomos)))
     valores = [sum([prod.valor for prod in melhor]) for melhor in melhores_cromossomos]
     volumes = [sum([prod.espaco for prod in melhor]) for melhor in melhores_cromossomos]
@@ -20,23 +16,13 @@ def plot_graph(melhores_cromossomos):
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(geracoes, valores, marker='o', linestyle='-', color='b', label='Melhores soluções')
     ax.plot(best_index, best_value, marker='o', color='r', label=f'Melhor valor: {best_value}, Volume: {best_volume}')
-    ax.set_title('Evolução da Melhor Solução (Brute Force)')
+    ax.set_title(f'Evolução da Melhor Solução (Brute Force)\nTempo de Execução: {execution_time:.2f} segundos')
     ax.set_xlabel('Geração (Chunk de Combinações)')
     ax.set_ylabel('Valor')
     ax.legend()
     ax.grid(True)
 
-    root = tk.Tk()
-    root.title("Evolução da Melhor Solução Brute Force")
-
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.draw()
-    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
-    button = tk.Button(master=root, text="Fechar", command=root.quit)
-    button.pack(side=tk.BOTTOM)
-
-    tk.mainloop()
+    plt.show()
 
 
 def brute_force_knapsack(produtos, limite, chunk_size=100):
@@ -84,10 +70,12 @@ def brute_force_knapsack(produtos, limite, chunk_size=100):
 def main():
     lista_produto = GeracaoDeProdutos.gerar_lista_produtos(lim=23)
     limite = 3.0
-    chunk_size = 100  # Simula gerações dividindo a busca de força bruta
+    chunk_size = 1000  # Simula gerações dividindo a busca de força bruta
 
-    # Solução de força bruta com "gerações" simuladas
+    start_time = time.time()
     melhores_cromossomos = brute_force_knapsack(lista_produto, limite, chunk_size)
+    end_time = time.time()
+    execution_time = end_time - start_time
 
     print("****** MELHOR SOLUÇÃO ******")
     melhor_solucao = melhores_cromossomos[-1]
@@ -96,7 +84,7 @@ def main():
     print("******** FIM ********")
 
     # Plota a evolução da melhor solução
-    plot_graph(melhores_cromossomos)
+    plot_graph(melhores_cromossomos, execution_time)
 
 
 if __name__ == "__main__":
